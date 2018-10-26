@@ -1,6 +1,23 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const knex = require("knex");
+
+const db = knex({
+  client: "pg",
+  connection: {
+    host: "127.0.0.1",
+    user: "postgres",
+    password: "test",
+    database: "smart-brain"
+  }
+});
+
+db.select("*")
+  .from("users")
+  .then(response => {
+    console.log(response);
+  });
 
 const app = express();
 app.use(bodyParser.json());
@@ -47,15 +64,21 @@ app.post("/register", (req, res) => {
   const { name, email, password } = req.body;
 
   if (name && email && password) {
-    database.users.push({
-      id: "15",
-      name: name,
-      email: email,
-      password: password,
-      entries: 0,
-      joined: new Date()
-    });
-    res.json(database.users[database.users.length - 1]);
+    db("users")
+      .returning("*")
+      .insert({
+        email: email,
+        name: name,
+        joined: new Date()
+      })
+      .then(
+        user => {
+          res.json(user[0]);
+        },
+        err => {
+          res.status(400).json("Unable to register");
+        }
+      );
   } else {
     res.status(400).json("Error: must provide all fields");
   }
