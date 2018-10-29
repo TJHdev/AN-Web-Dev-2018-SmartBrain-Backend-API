@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "node server.js"
   },
   "author": "Thomas Hanna",
   "license": "ISC",
@@ -16,7 +16,6 @@
     "cors": "^2.8.4",
     "express": "^4.16.4",
     "knex": "^0.15.2",
-    "nodemon": "^1.18.5",
     "pg": "^7.5.0"
   }
 }
