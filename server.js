@@ -37,6 +37,32 @@ app.get("/", (req, res) => {
     );
 });
 
+app.get("/test", (req, res) => {
+  db.select("id", "name", "email", "entries", "joined")
+    .from("users")
+    .then(
+      users => {
+        res.json(users);
+      },
+      err => {
+        res.json("Couldn't retrieve users");
+      }
+    );
+});
+
+app.get("/test2", (req, res) => {
+  db.select("id", "hash", "email")
+    .from("login")
+    .then(
+      login => {
+        res.json(login);
+      },
+      err => {
+        res.json("Couldn't retrieve login");
+      }
+    );
+});
+
 // app.get("/", (req, res) => {
 //   res.send("It is working!");
 // });
