@@ -16,56 +16,56 @@ const db = knex({
   connection: {
     connectionString: process.env.DATABASE_URL,
     ssl: true
-  },
-  debug: true
+  }
 });
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get("/", (req, res) => {
-  db.select("*")
-    .from("users")
-    .then(
-      users => {
-        res.json(users);
-      },
-      err => {
-        res.json("Couldn't retrieve users");
-      }
-    );
-});
-
-app.get("/test", (req, res) => {
-  db.select("id", "name", "email", "entries", "joined")
-    .from("users")
-    .then(
-      users => {
-        res.json(users);
-      },
-      err => {
-        res.json("Couldn't retrieve users");
-      }
-    );
-});
-
-app.get("/test2", (req, res) => {
-  db.select("id", "hash", "email")
-    .from("login")
-    .then(
-      login => {
-        res.json(login);
-      },
-      err => {
-        res.json("Couldn't retrieve login");
-      }
-    );
-});
-
 // app.get("/", (req, res) => {
-//   res.send("It is working!");
+//   db.select("*")
+//     .from("users")
+//     .then(
+//       users => {
+//         res.json(users);
+//       },
+//       err => {
+//         res.json("Couldn't retrieve users");
+//       }
+//     );
 // });
+
+// app.get("/test", (req, res) => {
+//   db.select("id", "name", "email", "entries", "joined")
+//     .from("users")
+//     .then(
+//       users => {
+//         res.json(users);
+//       },
+//       err => {
+//         res.json("Couldn't retrieve users");
+//       }
+//     );
+// });
+
+// app.get("/test2", (req, res) => {
+//   db.select("id", "hash", "email")
+//     .from("login")
+//     .then(
+//       login => {
+//         res.json(login);
+//       },
+//       err => {
+//         res.json("Couldn't retrieve login");
+//       }
+//     );
+// });
+
+app.get("/", (req, res) => {
+  res.send("It is working!");
+});
+
 app.post("/signin", signin.handleSignin(db, bcrypt));
 app.post("/register", register.handleRegister(db, bcrypt));
 app.get("/profile/:userId", profile.handleProfileGet(db));
