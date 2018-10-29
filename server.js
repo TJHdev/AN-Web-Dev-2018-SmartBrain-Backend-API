@@ -23,22 +23,22 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-// app.get("/", (req, res) => {
-//   db.select("*")
-//     .from("users")
-//     .then(
-//       users => {
-//         res.json(users);
-//       },
-//       err => {
-//         res.json("Couldn't retrieve users");
-//       }
-//     );
-// });
-
 app.get("/", (req, res) => {
-  res.send("It is working!");
+  db.select("*")
+    .from("users")
+    .then(
+      users => {
+        res.json(users);
+      },
+      err => {
+        res.json("Couldn't retrieve users");
+      }
+    );
 });
+
+// app.get("/", (req, res) => {
+//   res.send("It is working!");
+// });
 app.post("/signin", signin.handleSignin(db, bcrypt));
 app.post("/register", register.handleRegister(db, bcrypt));
 app.get("/profile/:userId", profile.handleProfileGet(db));
