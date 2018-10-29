@@ -9,6 +9,8 @@ const signin = require("./controllers/signin");
 const profile = require("./controllers/profile");
 const image = require("./controllers/image");
 
+const PORT = process.env.PORT || 4000;
+
 const db = knex({
   client: "pg",
   connection: {
@@ -36,14 +38,15 @@ app.get("/", (req, res) => {
     );
 });
 
+app.get("/", (req, res) => {
+  res.send("It is working!");
+});
 app.post("/signin", signin.handleSignin(db, bcrypt));
-
 app.post("/register", register.handleRegister(db, bcrypt));
-
 app.get("/profile/:userId", profile.handleProfileGet(db));
-
 app.put("/image", image.handleImage(db));
+app.put("/imageurl", image.handleApiCall());
 
-app.listen(4000, () => {
-  console.log("Server is up on port 4000");
+app.listen(PORT, () => {
+  console.log(`Server is up on port ${PORT}`);
 });
