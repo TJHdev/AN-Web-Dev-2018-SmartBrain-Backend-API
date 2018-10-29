@@ -69,8 +69,8 @@ app.get("/", (req, res) => {
 app.post("/signin", signin.handleSignin(db, bcrypt));
 app.post("/register", register.handleRegister(db, bcrypt));
 app.get("/profile/:userId", profile.handleProfileGet(db));
-app.put("/image", image.handleImage(db));
 app.put("/imageurl", image.handleApiCall());
+app.put("/image", image.handleImage(db));
 
 app.listen(PORT, () => {
   console.log(`Server is up on port ${PORT}`);
