@@ -21,11 +21,11 @@ const handleApiCall = () => (req, res) => {
 };
 
 const handleImage = db => (req, res) => {
-  const { id } = req.body;
+  const { id, count } = req.body;
 
   db("users")
     .where("id", "=", id)
-    .increment("entries", 1)
+    .increment("entries", count)
     .returning("entries")
     .then(
       entries => {
