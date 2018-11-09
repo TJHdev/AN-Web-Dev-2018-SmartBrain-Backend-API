@@ -3,3 +3,4 @@
 .env.deployedtest
 .env.local
 .env.localtest
+docker-compose.yml

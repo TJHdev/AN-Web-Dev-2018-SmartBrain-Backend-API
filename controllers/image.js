@@ -6,7 +6,7 @@ const app =
         apiKey: process.env.CLARIFAI_API_KEY
       })
     : new Clarifai.App({
-        apiKey: "replace with an API key"
+        apiKey: process.env.CLARIFAI_API_KEY
       });
 
 const handleApiCall = () => (req, res) => {
