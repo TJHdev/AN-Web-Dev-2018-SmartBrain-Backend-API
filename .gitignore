@@ -1,2 +1,5 @@
 /node_modules/
-.env
+.env.deployed
+.env.deployedtest
+.env.local
+.env.localtest

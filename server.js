@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt-nodejs");
 const cors = require("cors");
 const knex = require("knex");
+const morgan = require("morgan");
 
 const register = require("./controllers/register");
 const signin = require("./controllers/signin");
@@ -11,28 +12,18 @@ const image = require("./controllers/image");
 
 const PORT = process.env.PORT || 4000;
 
-const db =
-  process.env.NODE_ENV === "production"
-    ? knex({
-        client: "pg",
-        connection: {
-          connectionString: process.env.DATABASE_URL,
-          ssl: true
-        }
-      })
-    : knex({
-        client: "pg",
-        connection: {
-          host: "127.0.0.1",
-          user: "postgres",
-          password: "test",
-          database: "smart-brain"
-        }
-      });
+const db = knex({
+  client: "pg",
+  connection: process.env.POSTGRES_URI
+});
 
 const app = express();
-app.use(bodyParser.json());
+
+console.log("It is working");
+
+app.use(morgan("combined"));
 app.use(cors());
+app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
   res.send("It is working!");
