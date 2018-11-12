@@ -9,6 +9,7 @@ const register = require("./controllers/register");
 const signin = require("./controllers/signin");
 const profile = require("./controllers/profile");
 const image = require("./controllers/image");
+const auth = require("./controllers/authorization");
 
 const PORT = process.env.PORT || 4000;
 
@@ -28,10 +29,10 @@ app.get("/", (req, res) => {
 });
 app.post("/signin", signin.signinAuthentication(db, bcrypt));
 app.post("/register", register.handleRegister(db, bcrypt));
-app.get("/profile/:userId", profile.handleProfileGet(db));
-app.post("/profile/:userId", profile.handleProfileUpdate(db));
-app.put("/imageurl", image.handleApiCall());
-app.put("/image", image.handleImage(db));
+app.get("/profile/:userId", auth.requireAuth, profile.handleProfileGet(db));
+app.post("/profile/:userId", auth.requireAuth, profile.handleProfileUpdate(db));
+app.put("/imageurl", auth.requireAuth, image.handleApiCall());
+app.put("/image", auth.requireAuth, image.handleImage(db));
 
 app.listen(PORT, () => {
   console.log(`Server is up on port ${PORT}`);
