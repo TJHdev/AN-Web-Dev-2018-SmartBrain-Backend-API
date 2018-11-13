@@ -7,6 +7,7 @@ const morgan = require("morgan");
 
 const register = require("./controllers/register");
 const signin = require("./controllers/signin");
+const signout = require("./controllers/signout");
 const profile = require("./controllers/profile");
 const image = require("./controllers/image");
 const auth = require("./controllers/authorization");
@@ -27,8 +28,9 @@ app.use(bodyParser.json());
 app.get("/", (req, res) => {
   res.send("It is working");
 });
-app.post("/signin", signin.signinAuthentication(db, bcrypt));
 app.post("/register", register.handleRegister(db, bcrypt));
+app.post("/signin", signin.signinAuthentication(db, bcrypt));
+app.delete("/signout", auth.requireAuth, signout.handleSignout());
 app.get("/profile/:userId", auth.requireAuth, profile.handleProfileGet(db));
 app.post("/profile/:userId", auth.requireAuth, profile.handleProfileUpdate(db));
 app.put("/imageurl", auth.requireAuth, image.handleApiCall());
